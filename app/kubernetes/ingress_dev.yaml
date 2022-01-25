@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    ingress.gcp.kubernetes.io/pre-shared-cert: sales-advanced-designs-dev-cert
+    ingress.kubernetes.io/ssl-cert: sales-advanced-designs-dev-cert
+    kubernetes.io/ingress.allow-http: "false"
+    kubernetes.io/ingress.global-static-ip-name: sales-advanced-designs-dev
+  generation: 1
+  labels:
+    app.kubernetes.io/name: advanceddesign-frontend
+    app.kubernetes.io/version: "1.0"
+  name: advanceddesign-dev
+  namespace: advanced-design-dev
+spec:
+  backend:
+    serviceName: advanceddesign-frontend
+    servicePort: 8088
+  rules:
+  - host: advanced-design-dev.mysunpower.com
+    http:
+      paths:
+      - path: /*
+        backend:
+          serviceName: advanceddesign-frontend
+          servicePort: 8088

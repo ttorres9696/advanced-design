@@ -1,0 +1,62 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DashboardContent renders correctly 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <Memo(DashboardContent)
+    isLeftDrawerOpened={true}
+    isRightDrawerOpened={true}
+  >
+    <ForwardRef
+      className="makeStyles-content-1 makeStyles-contentRightShift-2"
+      draggable={true}
+      height={336}
+      onClick={[Function]}
+      onMouseDown={[Function]}
+      onMouseMove={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      scaleX={1}
+      scaleY={1}
+      width={160}
+      x={0}
+      y={0}
+    >
+      <Stage
+        className="makeStyles-content-1 makeStyles-contentRightShift-2"
+        draggable={true}
+        forwardedRef={[Function]}
+        height={336}
+        onClick={[Function]}
+        onMouseDown={[Function]}
+        onMouseMove={[Function]}
+        onMouseUp={[Function]}
+        onTouchEnd={[Function]}
+        onTouchMove={[Function]}
+        onTouchStart={[Function]}
+        scaleX={1}
+        scaleY={1}
+        width={160}
+        x={0}
+        y={0}
+      >
+        <div
+          className="makeStyles-content-1 makeStyles-contentRightShift-2"
+        />
+      </Stage>
+    </ForwardRef>
+  </Memo(DashboardContent)>
+</Provider>
+`;

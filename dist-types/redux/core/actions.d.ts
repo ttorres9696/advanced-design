@@ -1,0 +1,12 @@
+import { ModuleSpec } from '../../shared/models/SolarDesign.interface';
+import { DeleteDialogParams, WindowDimension } from './state';
+import { CoreActionTypes } from './types';
+export declare const fetchedModuleSpecs: (moduleSpecs: ModuleSpec[]) => CoreActionTypes;
+export declare const fetchModuleSpecs: Function;
+export declare const setDeleteDialogParams: (params: DeleteDialogParams) => CoreActionTypes;
+export declare const setWindowDimension: (dimension: WindowDimension) => CoreActionTypes;
+export declare const setPreLoading: (loading: boolean) => CoreActionTypes;
+export declare const cancelPreLoading: () => CoreActionTypes;
+export declare const decreaseProductionValue: (amount: number) => CoreActionTypes;
+export declare const increaseProductionValue: (amount: number) => CoreActionTypes;
+export declare const resetProductionValue: () => CoreActionTypes;

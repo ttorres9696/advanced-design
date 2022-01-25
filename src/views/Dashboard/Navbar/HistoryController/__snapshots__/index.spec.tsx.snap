@@ -1,0 +1,241 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HistoryController renders correctly 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <Memo(HistoryController)>
+    <Styled(MuiBox)
+      className="makeStyles-controller-1"
+    >
+      <div
+        className="MuiBox-root MuiBox-root-3 makeStyles-controller-1"
+      >
+        <WithStyles(ForwardRef(IconButton))
+          aria-label="undo-history"
+          color="inherit"
+          disabled={true}
+          onClick={[Function]}
+        >
+          <ForwardRef(IconButton)
+            aria-label="undo-history"
+            classes={
+              Object {
+                "colorInherit": "MuiIconButton-colorInherit",
+                "colorPrimary": "MuiIconButton-colorPrimary",
+                "colorSecondary": "MuiIconButton-colorSecondary",
+                "disabled": "Mui-disabled",
+                "edgeEnd": "MuiIconButton-edgeEnd",
+                "edgeStart": "MuiIconButton-edgeStart",
+                "label": "MuiIconButton-label",
+                "root": "MuiIconButton-root",
+                "sizeSmall": "MuiIconButton-sizeSmall",
+              }
+            }
+            color="inherit"
+            disabled={true}
+            onClick={[Function]}
+          >
+            <WithStyles(ForwardRef(ButtonBase))
+              aria-label="undo-history"
+              centerRipple={true}
+              className="MuiIconButton-root MuiIconButton-colorInherit Mui-disabled"
+              disabled={true}
+              focusRipple={true}
+              onClick={[Function]}
+            >
+              <ForwardRef(ButtonBase)
+                aria-label="undo-history"
+                centerRipple={true}
+                className="MuiIconButton-root MuiIconButton-colorInherit Mui-disabled"
+                classes={
+                  Object {
+                    "disabled": "Mui-disabled",
+                    "focusVisible": "Mui-focusVisible",
+                    "root": "MuiButtonBase-root",
+                  }
+                }
+                disabled={true}
+                focusRipple={true}
+                onClick={[Function]}
+              >
+                <button
+                  aria-label="undo-history"
+                  className="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit Mui-disabled Mui-disabled"
+                  disabled={true}
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onDragLeave={[Function]}
+                  onFocus={[Function]}
+                  onKeyDown={[Function]}
+                  onKeyUp={[Function]}
+                  onMouseDown={[Function]}
+                  onMouseLeave={[Function]}
+                  onMouseUp={[Function]}
+                  onTouchEnd={[Function]}
+                  onTouchMove={[Function]}
+                  onTouchStart={[Function]}
+                  tabIndex={-1}
+                  type="button"
+                >
+                  <span
+                    className="MuiIconButton-label"
+                  >
+                    <ForwardRef>
+                      <WithStyles(ForwardRef(SvgIcon))>
+                        <ForwardRef(SvgIcon)
+                          classes={
+                            Object {
+                              "colorAction": "MuiSvgIcon-colorAction",
+                              "colorDisabled": "MuiSvgIcon-colorDisabled",
+                              "colorError": "MuiSvgIcon-colorError",
+                              "colorPrimary": "MuiSvgIcon-colorPrimary",
+                              "colorSecondary": "MuiSvgIcon-colorSecondary",
+                              "fontSizeInherit": "MuiSvgIcon-fontSizeInherit",
+                              "fontSizeLarge": "MuiSvgIcon-fontSizeLarge",
+                              "fontSizeSmall": "MuiSvgIcon-fontSizeSmall",
+                              "root": "MuiSvgIcon-root",
+                            }
+                          }
+                        >
+                          <svg
+                            aria-hidden="true"
+                            className="MuiSvgIcon-root"
+                            focusable="false"
+                            role="presentation"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M12.5 8c-2.65 0-5.05.99-6.9 2.6L2 7v9h9l-3.62-3.62c1.39-1.16 3.16-1.88 5.12-1.88 3.54 0 6.55 2.31 7.6 5.5l2.37-.78C21.08 11.03 17.15 8 12.5 8z"
+                            />
+                          </svg>
+                        </ForwardRef(SvgIcon)>
+                      </WithStyles(ForwardRef(SvgIcon))>
+                    </ForwardRef>
+                  </span>
+                </button>
+              </ForwardRef(ButtonBase)>
+            </WithStyles(ForwardRef(ButtonBase))>
+          </ForwardRef(IconButton)>
+        </WithStyles(ForwardRef(IconButton))>
+        <WithStyles(ForwardRef(IconButton))
+          aria-label="redo-history"
+          color="inherit"
+          disabled={true}
+          onClick={[Function]}
+        >
+          <ForwardRef(IconButton)
+            aria-label="redo-history"
+            classes={
+              Object {
+                "colorInherit": "MuiIconButton-colorInherit",
+                "colorPrimary": "MuiIconButton-colorPrimary",
+                "colorSecondary": "MuiIconButton-colorSecondary",
+                "disabled": "Mui-disabled",
+                "edgeEnd": "MuiIconButton-edgeEnd",
+                "edgeStart": "MuiIconButton-edgeStart",
+                "label": "MuiIconButton-label",
+                "root": "MuiIconButton-root",
+                "sizeSmall": "MuiIconButton-sizeSmall",
+              }
+            }
+            color="inherit"
+            disabled={true}
+            onClick={[Function]}
+          >
+            <WithStyles(ForwardRef(ButtonBase))
+              aria-label="redo-history"
+              centerRipple={true}
+              className="MuiIconButton-root MuiIconButton-colorInherit Mui-disabled"
+              disabled={true}
+              focusRipple={true}
+              onClick={[Function]}
+            >
+              <ForwardRef(ButtonBase)
+                aria-label="redo-history"
+                centerRipple={true}
+                className="MuiIconButton-root MuiIconButton-colorInherit Mui-disabled"
+                classes={
+                  Object {
+                    "disabled": "Mui-disabled",
+                    "focusVisible": "Mui-focusVisible",
+                    "root": "MuiButtonBase-root",
+                  }
+                }
+                disabled={true}
+                focusRipple={true}
+                onClick={[Function]}
+              >
+                <button
+                  aria-label="redo-history"
+                  className="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit Mui-disabled Mui-disabled"
+                  disabled={true}
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onDragLeave={[Function]}
+                  onFocus={[Function]}
+                  onKeyDown={[Function]}
+                  onKeyUp={[Function]}
+                  onMouseDown={[Function]}
+                  onMouseLeave={[Function]}
+                  onMouseUp={[Function]}
+                  onTouchEnd={[Function]}
+                  onTouchMove={[Function]}
+                  onTouchStart={[Function]}
+                  tabIndex={-1}
+                  type="button"
+                >
+                  <span
+                    className="MuiIconButton-label"
+                  >
+                    <ForwardRef>
+                      <WithStyles(ForwardRef(SvgIcon))>
+                        <ForwardRef(SvgIcon)
+                          classes={
+                            Object {
+                              "colorAction": "MuiSvgIcon-colorAction",
+                              "colorDisabled": "MuiSvgIcon-colorDisabled",
+                              "colorError": "MuiSvgIcon-colorError",
+                              "colorPrimary": "MuiSvgIcon-colorPrimary",
+                              "colorSecondary": "MuiSvgIcon-colorSecondary",
+                              "fontSizeInherit": "MuiSvgIcon-fontSizeInherit",
+                              "fontSizeLarge": "MuiSvgIcon-fontSizeLarge",
+                              "fontSizeSmall": "MuiSvgIcon-fontSizeSmall",
+                              "root": "MuiSvgIcon-root",
+                            }
+                          }
+                        >
+                          <svg
+                            aria-hidden="true"
+                            className="MuiSvgIcon-root"
+                            focusable="false"
+                            role="presentation"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M18.4 10.6C16.55 8.99 14.15 8 11.5 8c-4.65 0-8.58 3.03-9.96 7.22L3.9 16c1.05-3.19 4.05-5.5 7.6-5.5 1.95 0 3.73.72 5.12 1.88L13 16h9V7l-3.6 3.6z"
+                            />
+                          </svg>
+                        </ForwardRef(SvgIcon)>
+                      </WithStyles(ForwardRef(SvgIcon))>
+                    </ForwardRef>
+                  </span>
+                </button>
+              </ForwardRef(ButtonBase)>
+            </WithStyles(ForwardRef(ButtonBase))>
+          </ForwardRef(IconButton)>
+        </WithStyles(ForwardRef(IconButton))>
+      </div>
+    </Styled(MuiBox)>
+  </Memo(HistoryController)>
+</Provider>
+`;

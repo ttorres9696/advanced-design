@@ -1,0 +1,214 @@
+#!groovy
+@Library('jenkins-pipeline-shared@master') _
+
+
+
+def envToCreds = [
+  'dev': 'GKE_SALES_KUBEAPPS_DEV_CREDS',
+  'qa': 'GKE_SALES_KUBEAPPS_DEV_CREDS',
+  'uat': 'GKE_SALES_KUBEAPPS_DEV_CREDS',
+  'prod': 'GKE_SALES_KUBEAPPS_PROD_CREDS',
+]
+
+def envToSA = [
+  'dev': 'sales-kubeapps-dev@spwr-sales-kubeapps-dev-330a.iam.gserviceaccount.com',
+  'qa': 'sales-kubeapps-dev@spwr-sales-kubeapps-dev-330a.iam.gserviceaccount.com',
+  'uat': 'sales-kubeapps-dev@spwr-sales-kubeapps-dev-330a.iam.gserviceaccount.com',
+  'prod': 'sales-kubeapps-prod@spwr-sales-kubeapps-prod-c48e.iam.gserviceaccount.com'
+]
+
+def envToProject = [
+  'dev': 'spwr-sales-kubeapps-dev-330a',
+  'qa': 'spwr-sales-kubeapps-dev-330a',
+  'uat': 'spwr-sales-kubeapps-dev-330a',
+  'prod': 'spwr-sales-kubeapps-prod-c48e',
+]
+
+def envToCluster = [
+  'dev': 'spwr-sales-kubeapps-dev-v2',
+  'qa': 'spwr-sales-kubeapps-dev-v2',
+  'uat': 'spwr-sales-kubeapps-dev-v2',
+  'prod': 'spwr-sales-kubeapps-prod',
+]
+
+
+pipeline {
+  agent {
+    kubernetes {
+      label 'advanced-design-deploy'
+      defaultContainer 'jnlp'
+      yaml """
+        apiVersion: v1
+        kind: Pod
+        metadata:
+          labels:
+            docker: true
+        spec:
+          containers:
+          - name: gcloud
+            image: us.gcr.io/spwr-cd-90fd/devops-jenkins-agents:gcloud
+            command:
+            - cat
+            tty: true
+          - name: git
+            image: alpine/git
+            command:
+            - cat
+            tty: true
+          - name: docker
+            image: docker:19.03.8
+            command:
+            - cat
+            tty: true
+            volumeMounts:
+            - name: docker-sock-volume
+              mountPath: /var/run/docker.sock
+          volumes:
+          - name: docker-sock-volume
+            hostPath:
+              path: /var/run/docker.sock
+      """
+    }
+  }
+
+  options {
+    buildDiscarder(logRotator(numToKeepStr: '25'))
+    timestamps()
+    skipDefaultCheckout true
+    timeout(time: 30, unit: 'MINUTES')
+  }
+
+
+  parameters {
+    choice(name: 'ENV', choices: ['dev','qa','uat','prod'], description: 'advanced-design GKE environment.')
+    string(name: 'BRANCH', description: 'Branch to build.')
+    string(name: 'CHANGE_NUMBER', defaultValue: '', description: 'ServiceNow Change Number.')
+  }
+
+  environment {
+    dockerImage = ''
+    GKE_CD_PROJECT = 'spwr-cd-90fd'
+    APP_IMAGE = "advanced-design"
+    LOCATION = "--region us-west1"
+    DOCKER_REGISTRY = "us.gcr.io"
+  }
+
+  stages {
+    stage('Validate SN') {
+      when {
+        expression { params.ENV == 'prod' }
+      }
+      steps {
+        container('gcloud') {
+        script {
+          slack_channel = 'production_deployment'
+          withCredentials([
+            string(credentialsId: 'SERVICENOW_CLIENT_ID', variable: 'SERVICENOW_CLIENT_ID'),
+            string(credentialsId: 'SERVICENOW_CLIENT_SECRET', variable: 'SERVICENOW_CLIENT_SECRET'),
+            string(credentialsId: 'SERVICENOW_USERNAME', variable: 'SERVICENOW_USERNAME'),
+            string(credentialsId: 'SERVICENOW_PASSWORD', variable: 'SERVICENOW_PASSWORD')
+          ]) {
+            validateSNChangeNumber("${params.CHANGE_NUMBER}", "${SERVICENOW_CLIENT_ID}", "${SERVICENOW_CLIENT_SECRET}", "${SERVICENOW_USERNAME}", "${SERVICENOW_PASSWORD}")
+          }
+        }
+      }
+    }
+  }
+
+    stage ('Checkout') {
+      steps {
+        container('git') {
+          script {
+            def repo = checkout([$class: 'GitSCM',
+                branches: [[ name: params.BRANCH ]],
+                doGenerateSubmoduleConfigurations: false,
+                extensions: [],
+                submoduleCfg: [],
+                userRemoteConfigs: scm.userRemoteConfigs
+              ])
+            commit = repo.GIT_COMMIT.take(7)
+            branch = repo.GIT_BRANCH.split('/')[1]
+            env.COMMIT_ID = commit
+          }
+        }
+      }
+    }
+
+    stage ('Check Docker image Exists') {
+      steps {
+        container('docker') {
+            script {
+              echo 'Verify does docker image with tag exist'
+              dockerFrontendImageTag = env.GKE_CD_PROJECT + '/' + env.APP_IMAGE + '-frontend:' + params.ENV + '-' + params.BRANCH + '-' + commit
+              dockerBackendImageTag = env.GKE_CD_PROJECT + '/' + env.APP_IMAGE + '-backend:' + params.ENV + '-' + params.BRANCH + '-' + commit
+              docker.withRegistry("https://${DOCKER_REGISTRY}", "gcr:${env.GKE_CD_PROJECT}") {
+                def dockerImageTag = dockerFrontendImageTag
+                try {
+                  sh(script: "docker pull us.gcr.io/${dockerFrontendImageTag} > dockerpull.log 2>&1", returnStdout:true).trim()
+                  dockerImageTag = dockerBackendImageTag
+                  sh(script: "docker pull us.gcr.io/${dockerBackendImageTag} > dockerpull.log 2>&1", returnStdout:true).trim()
+                  println("Starting deployment using image us.gcr.io/${dockerFrontendImageTag} and us.gcr.io/${dockerBackendImageTag}")
+                } catch (Exception ex) {
+                    println("image doesn't exist us.gcr.io/${dockerImageTag}")
+                    println("docker image for branch: ${params.BRANCH},env:${params.ENV},commit:${commit} doesn't exist")
+                    echo ex.toString()
+                    throw ex
+                }
+              }
+            }
+          }
+        }
+      }
+
+    stage('Gcloud Deploy to k8s') {
+      steps {
+        container('gcloud') {
+          withCredentials([file(credentialsId: envToCreds[params.ENV], variable: 'FILE'),]) {
+            dir("app/kubernetes"){
+            script {
+              sh """
+              gcloud auth activate-service-account "${envToSA."${params.ENV}"}" --key-file="${FILE}"
+              gcloud auth list
+              gcloud --quiet config set project "${envToProject."${params.ENV}"}"
+              gcloud config get-value project
+              gcloud beta container clusters get-credentials ${LOCATION} "${envToCluster."${params.ENV}"}" --project "${envToProject."${params.ENV}"}"
+              
+              kubectl get pods -n advanced-design-${ENV}
+              kubectl get deploy -n advanced-design-${ENV}
+
+              DOCKER_REGISTRY=${DOCKER_REGISTRY}
+              IMAGE_NAME=${APP_IMAGE}
+              IMAGE_TAG=${ENV}-${BRANCH}-${COMMIT_ID}
+              
+              sed -i "s/APPLICATION_ENVIRONMENT/${ENV}/g" deployment-frontend.yaml
+              sed -i "s/DOCKER_REGISTRY/${DOCKER_REGISTRY}/g" deployment-frontend.yaml
+              sed -i "s/GCR_PROJECT_ID/${GKE_CD_PROJECT}/g" deployment-frontend.yaml
+              sed -i "s/IMAGE_TAG/"\${IMAGE_TAG}"/g" deployment-frontend.yaml
+              sed -i "s/JENKINS_BUILD_NUMBER/${env.BUILD_NUMBER}/g" deployment-frontend.yaml
+
+              sed -i "s/APPLICATION_ENVIRONMENT/${ENV}/g" deployment-backend.yaml
+              sed -i "s/DOCKER_REGISTRY/${DOCKER_REGISTRY}/g" deployment-backend.yaml
+              sed -i "s/GCR_PROJECT_ID/${GKE_CD_PROJECT}/g" deployment-backend.yaml
+              sed -i "s/IMAGE_TAG/"\${IMAGE_TAG}"/g" deployment-backend.yaml
+              sed -i "s/JENKINS_BUILD_NUMBER/${env.BUILD_NUMBER}/g" deployment-backend.yaml
+
+              kubectl apply -f deployment-backend.yaml
+              kubectl apply -f deployment-frontend.yaml
+              kubectl apply -f service_backend_${ENV}.yaml
+              kubectl apply -f service_frontend_${ENV}.yaml
+              kubectl apply -f ingress_${ENV}.yaml
+              sleep 20
+              kubectl get -f deployment-backend.yaml
+              kubectl get -f deployment-frontend.yaml
+              kubectl get -f service_backend_${ENV}.yaml
+              kubectl get -f service_frontend_${ENV}.yaml
+              kubectl get -f ingress_${ENV}.yaml
+              """
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

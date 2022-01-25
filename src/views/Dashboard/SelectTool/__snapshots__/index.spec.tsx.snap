@@ -1,0 +1,58 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SelectTool renders correctly 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <Memo(SelectTool)>
+    <button
+      className="makeStyles-button-1"
+      onClick={[Function]}
+      type="button"
+    >
+      <span
+        className="makeStyles-iconGroup-3"
+      >
+        <img
+          alt=""
+          className="makeStyles-boxIcon-4"
+          src={
+            Object {
+              "ReactComponent": Object {
+                "$$typeof": Symbol(react.forward_ref),
+                "render": [Function],
+              },
+              "__esModule": true,
+              "default": "select-box-icon.svg",
+            }
+          }
+        />
+        <img
+          alt=""
+          className="makeStyles-cursorIcon-5"
+          src={
+            Object {
+              "ReactComponent": Object {
+                "$$typeof": Symbol(react.forward_ref),
+                "render": [Function],
+              },
+              "__esModule": true,
+              "default": "select-cursor-icon.svg",
+            }
+          }
+        />
+      </span>
+      SELECT
+    </button>
+  </Memo(SelectTool)>
+</Provider>
+`;

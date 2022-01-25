@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  # annotations:
+  #   cloud.google.com/backend-config: '{"ports": {"80":"advanceddesign-prod-backend-config"}}'
+  labels:
+    app.kubernetes.io/name: advanceddesign-backend
+    app.kubernetes.io/version: "1.0"
+  name: advanced-design-backend
+  namespace: advanced-design-prod
+spec:
+  ports:
+  - name: advanceddesign-prod
+    port: 8882
+    protocol: TCP
+    targetPort: 8882
+  selector:
+    app.kubernetes.io/instance: advanceddesign-backend-prod
+    app.kubernetes.io/name: advanceddesign-backend
+  type: ClusterIP

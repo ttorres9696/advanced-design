@@ -1,0 +1,17 @@
+import { Vector2d } from 'konva/types/types';
+import { ShapeCoords } from '../../shared/components/ShapeElement/types';
+import { CanvasActionTypes, SelectionType } from './types';
+export declare const selectShape: (solarElementId: string, layer: string, selectionType: SelectionType) => CanvasActionTypes;
+export declare const deselectShape: (solarElementId: string) => CanvasActionTypes;
+export declare const increaseZoom: () => CanvasActionTypes;
+export declare const decreaseZoom: () => CanvasActionTypes;
+export declare const normalizeZoom: () => CanvasActionTypes;
+export declare const setCanvasOrigin: (canvasCoords: ShapeCoords) => CanvasActionTypes;
+export declare const incrementTotalShapes: () => CanvasActionTypes;
+export declare const decrementTotalShapes: (count?: number | undefined) => CanvasActionTypes;
+export declare const setNewDraggablePointMode: (mode: boolean) => CanvasActionTypes;
+export declare const setDeleteDraggablePointMode: (mode: boolean) => CanvasActionTypes;
+export declare const setMousePosition: (mousePosition?: Vector2d | undefined) => CanvasActionTypes;
+export declare const toggleMagnetMode: () => CanvasActionTypes;
+export declare const setDragging: (enabled: boolean) => CanvasActionTypes;
+export declare const setSelectMode: (enabled: boolean) => CanvasActionTypes;

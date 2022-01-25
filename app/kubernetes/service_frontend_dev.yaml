@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    cloud.google.com/backend-config: '{"ports": {"80":"advanceddesign-dev-backend-config"}}'
+  labels:
+    app.kubernetes.io/name: advanceddesign-frontend
+    app.kubernetes.io/version: "1.0"
+  name: advanceddesign-frontend
+  namespace: advanced-design-dev
+spec:
+  externalTrafficPolicy: Cluster
+  loadBalancerIP: 34.98.87.75
+  ports:
+  - name: advanceddesign-dev
+    port: 8088
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app.kubernetes.io/instance: advanceddesign-frontend-dev
+    app.kubernetes.io/name: advanceddesign-frontend
+  sessionAffinity: None
+  type: LoadBalancer

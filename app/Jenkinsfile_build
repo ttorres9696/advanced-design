@@ -1,0 +1,187 @@
+#!groovy
+@Library('jenkins-pipeline-shared@master') _
+
+
+def envToCreds = [
+  'dev': 'GKE_SALES_KUBEAPPS_DEV_CREDS',
+  'qa': 'GKE_SALES_KUBEAPPS_DEV_CREDS',
+  'uat': 'GKE_SALES_KUBEAPPS_DEV_CREDS',
+  'prod': 'GKE_SALES_KUBEAPPS_PROD_CREDS',
+]
+
+def envToSA = [
+  'dev': 'sales-kubeapps-dev@spwr-sales-kubeapps-dev-330a.iam.gserviceaccount.com',
+  'qa': 'sales-kubeapps-dev@spwr-sales-kubeapps-dev-330a.iam.gserviceaccount.com',
+  'uat': 'sales-kubeapps-dev@spwr-sales-kubeapps-dev-330a.iam.gserviceaccount.com',
+  'prod': 'sales-kubeapps-prod@spwr-sales-kubeapps-prod-c48e.iam.gserviceaccount.com'
+
+]
+
+def envToProject = [
+  'dev': 'spwr-sales-kubeapps-dev-330a',
+  'qa': 'spwr-sales-kubeapps-dev-330a',
+  'uat': 'spwr-sales-kubeapps-dev-330a',
+  'prod': 'spwr-sales-kubeapps-prod-c48e',
+]
+
+def envToCluster = [
+  'dev': 'spwr-sales-kubeapps-dev-v2',
+  'qa': 'spwr-sales-kubeapps-dev-v2',
+  'uat': 'spwr-sales-kubeapps-dev-v2',
+  'prod': 'spwr-sales-kubeapps-prod',
+]
+
+pipeline {
+  agent {
+    kubernetes {
+      label 'advanced-design-deploy'
+      defaultContainer 'jnlp'
+      yaml """
+        apiVersion: v1
+        kind: Pod
+        metadata:
+          labels:
+            docker: true
+        spec:
+          containers:
+          - name: gcloud
+            image: us.gcr.io/spwr-cd-90fd/devops-jenkins-agents:gcloud
+            command:
+            - cat
+            tty: true
+          - name: git
+            image: alpine/git
+            command:
+            - cat
+            tty: true
+          - name: docker
+            image: docker:19.03.8
+            command:
+            - cat
+            tty: true
+            volumeMounts:
+            - name: docker-sock-volume
+              mountPath: /var/run/docker.sock
+          volumes:
+          - name: docker-sock-volume
+            hostPath:
+              path: /var/run/docker.sock
+      """
+    }
+  }
+
+  options {
+    buildDiscarder(logRotator(numToKeepStr: '25'))
+    timestamps()
+    skipDefaultCheckout true
+    timeout(time: 30, unit: 'MINUTES')
+  }
+
+
+  parameters {
+    choice(name: 'ENV', choices: ['dev','qa','uat','prod'], description: 'advanced-design GKE environment.')
+    string(name: 'BRANCH', description: 'Branch to build.')
+    string(name: 'CHANGE_NUMBER', defaultValue: '', description: 'ServiceNow Change Number.')
+  }
+
+  environment {
+    dockerImage = ''
+    GKE_CD_PROJECT = 'spwr-cd-90fd'
+    APP_IMAGE = "advanced-design"
+    LOCATION = "--region us-west1"
+  }
+
+  stages {
+    stage('Validate SN') {
+      when {
+        expression { params.ENV == 'prod' }
+      }
+      steps {
+        script {
+          slack_channel = 'production_deployment'
+          withCredentials([
+            string(credentialsId: 'SERVICENOW_CLIENT_ID', variable: 'SERVICENOW_CLIENT_ID'),
+            string(credentialsId: 'SERVICENOW_CLIENT_SECRET', variable: 'SERVICENOW_CLIENT_SECRET'),
+            string(credentialsId: 'SERVICENOW_USERNAME', variable: 'SERVICENOW_USERNAME'),
+            string(credentialsId: 'SERVICENOW_PASSWORD', variable: 'SERVICENOW_PASSWORD')
+          ]) {
+            validateSNChangeNumber("${params.CHANGE_NUMBER}", "${SERVICENOW_CLIENT_ID}", "${SERVICENOW_CLIENT_SECRET}", "${SERVICENOW_USERNAME}", "${SERVICENOW_PASSWORD}")
+          }
+        }
+      }
+    }
+
+    stage ('Checkout') {
+      steps {
+        container('git') {
+          script {
+            def repo = checkout([$class: 'GitSCM',
+                branches: [[ name: params.BRANCH ]],
+                doGenerateSubmoduleConfigurations: false,
+                extensions: [],
+                submoduleCfg: [],
+                userRemoteConfigs: scm.userRemoteConfigs
+              ])
+            commit = repo.GIT_COMMIT.take(7)
+            branch = repo.GIT_BRANCH.split('/')[1]
+            env.COMMIT_ID = commit
+          }
+        }
+      }
+    }
+
+    stage ('Build Advanced Design Docker Images') {
+      parallel {
+        stage ('Build Backend Image') {
+          steps {
+            container('docker') {
+              script {
+                echo 'Running Docker docker build image...'
+                dir('backend') {
+                  dockerImageTag = env.GKE_CD_PROJECT + '/' + env.APP_IMAGE + '-backend' + ':' + params.ENV + '-' + params.BRANCH + '-' + commit
+                  dockerImage = docker.build(dockerImageTag," --no-cache -f Dockerfile .")
+                  echo "Docker image ID: ${dockerImage.id}"
+                  docker.withRegistry('https://us.gcr.io', "gcr:${env.GKE_CD_PROJECT}") {
+                    dockerImage.push()
+                  }
+                }
+              }
+            }
+          }
+        }
+        stage ('Build Frontend Image') {
+          steps {
+            container('docker') {
+              script {
+                echo 'Running Docker docker build image...'
+                dockerImageTag = env.GKE_CD_PROJECT + '/' + env.APP_IMAGE + '-frontend' + ':' + params.ENV + '-' + params.BRANCH + '-' + commit
+                dockerImage = docker.build(dockerImageTag," --no-cache -f Dockerfile .")
+                echo "Docker image ID: ${dockerImage.id}"
+                docker.withRegistry('https://us.gcr.io', "gcr:${env.GKE_CD_PROJECT}") {
+                  dockerImage.push()
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    stage ('Trigger deploy job') {
+        when {
+            expression { params.ENV == 'dev' }
+        }
+        steps {
+            echo('triggering the deployment job')
+                build(job: 'advanced-design-deploy',
+                        parameters: [
+                        string(name: 'ENV', value: params.ENV),
+                        string(name: 'BRANCH', value: params.BRANCH),
+                        string(name: 'CHANGE_NUMBER', value: params.CHANGE_NUMBER),
+                        ],
+                        wait: false
+                     )
+        }
+    }
+  }
+}

@@ -1,0 +1,307 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ZoomController renders correctly 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <Memo(ZoomController)>
+    <Styled(MuiBox)
+      className="makeStyles-controller-1"
+    >
+      <div
+        className="MuiBox-root MuiBox-root-4 makeStyles-controller-1"
+      >
+        <WithStyles(ForwardRef(IconButton))
+          aria-label="decrease-zoom"
+          color="inherit"
+          onClick={[Function]}
+        >
+          <ForwardRef(IconButton)
+            aria-label="decrease-zoom"
+            classes={
+              Object {
+                "colorInherit": "MuiIconButton-colorInherit",
+                "colorPrimary": "MuiIconButton-colorPrimary",
+                "colorSecondary": "MuiIconButton-colorSecondary",
+                "disabled": "Mui-disabled",
+                "edgeEnd": "MuiIconButton-edgeEnd",
+                "edgeStart": "MuiIconButton-edgeStart",
+                "label": "MuiIconButton-label",
+                "root": "MuiIconButton-root",
+                "sizeSmall": "MuiIconButton-sizeSmall",
+              }
+            }
+            color="inherit"
+            onClick={[Function]}
+          >
+            <WithStyles(ForwardRef(ButtonBase))
+              aria-label="decrease-zoom"
+              centerRipple={true}
+              className="MuiIconButton-root MuiIconButton-colorInherit"
+              disabled={false}
+              focusRipple={true}
+              onClick={[Function]}
+            >
+              <ForwardRef(ButtonBase)
+                aria-label="decrease-zoom"
+                centerRipple={true}
+                className="MuiIconButton-root MuiIconButton-colorInherit"
+                classes={
+                  Object {
+                    "disabled": "Mui-disabled",
+                    "focusVisible": "Mui-focusVisible",
+                    "root": "MuiButtonBase-root",
+                  }
+                }
+                disabled={false}
+                focusRipple={true}
+                onClick={[Function]}
+              >
+                <button
+                  aria-label="decrease-zoom"
+                  className="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit"
+                  disabled={false}
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onDragLeave={[Function]}
+                  onFocus={[Function]}
+                  onKeyDown={[Function]}
+                  onKeyUp={[Function]}
+                  onMouseDown={[Function]}
+                  onMouseLeave={[Function]}
+                  onMouseUp={[Function]}
+                  onTouchEnd={[Function]}
+                  onTouchMove={[Function]}
+                  onTouchStart={[Function]}
+                  tabIndex={0}
+                  type="button"
+                >
+                  <span
+                    className="MuiIconButton-label"
+                  >
+                    <ForwardRef>
+                      <WithStyles(ForwardRef(SvgIcon))>
+                        <ForwardRef(SvgIcon)
+                          classes={
+                            Object {
+                              "colorAction": "MuiSvgIcon-colorAction",
+                              "colorDisabled": "MuiSvgIcon-colorDisabled",
+                              "colorError": "MuiSvgIcon-colorError",
+                              "colorPrimary": "MuiSvgIcon-colorPrimary",
+                              "colorSecondary": "MuiSvgIcon-colorSecondary",
+                              "fontSizeInherit": "MuiSvgIcon-fontSizeInherit",
+                              "fontSizeLarge": "MuiSvgIcon-fontSizeLarge",
+                              "fontSizeSmall": "MuiSvgIcon-fontSizeSmall",
+                              "root": "MuiSvgIcon-root",
+                            }
+                          }
+                        >
+                          <svg
+                            aria-hidden="true"
+                            className="MuiSvgIcon-root"
+                            focusable="false"
+                            role="presentation"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
+                            />
+                          </svg>
+                        </ForwardRef(SvgIcon)>
+                      </WithStyles(ForwardRef(SvgIcon))>
+                    </ForwardRef>
+                  </span>
+                  <NoSsr>
+                    <WithStyles(undefined)
+                      center={true}
+                    >
+                      <ForwardRef(TouchRipple)
+                        center={true}
+                        classes={
+                          Object {
+                            "child": "MuiTouchRipple-child",
+                            "childLeaving": "MuiTouchRipple-childLeaving",
+                            "childPulsate": "MuiTouchRipple-childPulsate",
+                            "ripple": "MuiTouchRipple-ripple",
+                            "ripplePulsate": "MuiTouchRipple-ripplePulsate",
+                            "rippleVisible": "MuiTouchRipple-rippleVisible",
+                            "root": "MuiTouchRipple-root",
+                          }
+                        }
+                      >
+                        <span
+                          className="MuiTouchRipple-root"
+                        >
+                          <TransitionGroup
+                            childFactory={[Function]}
+                            component={null}
+                            exit={true}
+                          />
+                        </span>
+                      </ForwardRef(TouchRipple)>
+                    </WithStyles(undefined)>
+                  </NoSsr>
+                </button>
+              </ForwardRef(ButtonBase)>
+            </WithStyles(ForwardRef(ButtonBase))>
+          </ForwardRef(IconButton)>
+        </WithStyles(ForwardRef(IconButton))>
+        <Styled(MuiBox)
+          className="makeStyles-value-2"
+        >
+          <div
+            className="MuiBox-root MuiBox-root-26 makeStyles-value-2"
+          >
+            100
+            %
+          </div>
+        </Styled(MuiBox)>
+        <WithStyles(ForwardRef(IconButton))
+          aria-label="increase-zoom"
+          color="inherit"
+          onClick={[Function]}
+        >
+          <ForwardRef(IconButton)
+            aria-label="increase-zoom"
+            classes={
+              Object {
+                "colorInherit": "MuiIconButton-colorInherit",
+                "colorPrimary": "MuiIconButton-colorPrimary",
+                "colorSecondary": "MuiIconButton-colorSecondary",
+                "disabled": "Mui-disabled",
+                "edgeEnd": "MuiIconButton-edgeEnd",
+                "edgeStart": "MuiIconButton-edgeStart",
+                "label": "MuiIconButton-label",
+                "root": "MuiIconButton-root",
+                "sizeSmall": "MuiIconButton-sizeSmall",
+              }
+            }
+            color="inherit"
+            onClick={[Function]}
+          >
+            <WithStyles(ForwardRef(ButtonBase))
+              aria-label="increase-zoom"
+              centerRipple={true}
+              className="MuiIconButton-root MuiIconButton-colorInherit"
+              disabled={false}
+              focusRipple={true}
+              onClick={[Function]}
+            >
+              <ForwardRef(ButtonBase)
+                aria-label="increase-zoom"
+                centerRipple={true}
+                className="MuiIconButton-root MuiIconButton-colorInherit"
+                classes={
+                  Object {
+                    "disabled": "Mui-disabled",
+                    "focusVisible": "Mui-focusVisible",
+                    "root": "MuiButtonBase-root",
+                  }
+                }
+                disabled={false}
+                focusRipple={true}
+                onClick={[Function]}
+              >
+                <button
+                  aria-label="increase-zoom"
+                  className="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit"
+                  disabled={false}
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onDragLeave={[Function]}
+                  onFocus={[Function]}
+                  onKeyDown={[Function]}
+                  onKeyUp={[Function]}
+                  onMouseDown={[Function]}
+                  onMouseLeave={[Function]}
+                  onMouseUp={[Function]}
+                  onTouchEnd={[Function]}
+                  onTouchMove={[Function]}
+                  onTouchStart={[Function]}
+                  tabIndex={0}
+                  type="button"
+                >
+                  <span
+                    className="MuiIconButton-label"
+                  >
+                    <ForwardRef>
+                      <WithStyles(ForwardRef(SvgIcon))>
+                        <ForwardRef(SvgIcon)
+                          classes={
+                            Object {
+                              "colorAction": "MuiSvgIcon-colorAction",
+                              "colorDisabled": "MuiSvgIcon-colorDisabled",
+                              "colorError": "MuiSvgIcon-colorError",
+                              "colorPrimary": "MuiSvgIcon-colorPrimary",
+                              "colorSecondary": "MuiSvgIcon-colorSecondary",
+                              "fontSizeInherit": "MuiSvgIcon-fontSizeInherit",
+                              "fontSizeLarge": "MuiSvgIcon-fontSizeLarge",
+                              "fontSizeSmall": "MuiSvgIcon-fontSizeSmall",
+                              "root": "MuiSvgIcon-root",
+                            }
+                          }
+                        >
+                          <svg
+                            aria-hidden="true"
+                            className="MuiSvgIcon-root"
+                            focusable="false"
+                            role="presentation"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4V7zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
+                            />
+                          </svg>
+                        </ForwardRef(SvgIcon)>
+                      </WithStyles(ForwardRef(SvgIcon))>
+                    </ForwardRef>
+                  </span>
+                  <NoSsr>
+                    <WithStyles(undefined)
+                      center={true}
+                    >
+                      <ForwardRef(TouchRipple)
+                        center={true}
+                        classes={
+                          Object {
+                            "child": "MuiTouchRipple-child",
+                            "childLeaving": "MuiTouchRipple-childLeaving",
+                            "childPulsate": "MuiTouchRipple-childPulsate",
+                            "ripple": "MuiTouchRipple-ripple",
+                            "ripplePulsate": "MuiTouchRipple-ripplePulsate",
+                            "rippleVisible": "MuiTouchRipple-rippleVisible",
+                            "root": "MuiTouchRipple-root",
+                          }
+                        }
+                      >
+                        <span
+                          className="MuiTouchRipple-root"
+                        >
+                          <TransitionGroup
+                            childFactory={[Function]}
+                            component={null}
+                            exit={true}
+                          />
+                        </span>
+                      </ForwardRef(TouchRipple)>
+                    </WithStyles(undefined)>
+                  </NoSsr>
+                </button>
+              </ForwardRef(ButtonBase)>
+            </WithStyles(ForwardRef(ButtonBase))>
+          </ForwardRef(IconButton)>
+        </WithStyles(ForwardRef(IconButton))>
+      </div>
+    </Styled(MuiBox)>
+  </Memo(ZoomController)>
+</Provider>
+`;

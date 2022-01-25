@@ -1,0 +1,34 @@
+#####
+# Docker compose file
+#
+# For documentation see: https://docs.docker.com/compose/yml/
+#####
+
+# Run docker-compose build
+# Run docker-compose up
+
+version: '2.3'
+
+
+services:
+  frontend:
+    image: advanced-design-frontend
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    ports:
+      - "8088:80"
+    depends_on:
+      - backend
+    links:
+      - backend:advanced-design-backend
+
+  backend:
+    image: advanced-design-backend
+    env_file:
+      - backend/environment/development.env
+    build:
+      context: backend
+      dockerfile: Dockerfile
+    ports:
+      - "8882:8882"

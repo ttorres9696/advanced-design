@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: advanceddesign-frontend
+    app.kubernetes.io/version: "1.0"
+  name: advanceddesign-frontend-APPLICATION_ENVIRONMENT
+  namespace: advanced-design-APPLICATION_ENVIRONMENT
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: advanceddesign-frontend-APPLICATION_ENVIRONMENT
+      app.kubernetes.io/name: advanceddesign-frontend
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/instance: advanceddesign-frontend-APPLICATION_ENVIRONMENT
+        app.kubernetes.io/name: advanceddesign-frontend
+        build_number: "JENKINS_BUILD_NUMBER"
+    spec:
+      containers:
+      - image: DOCKER_REGISTRY/GCR_PROJECT_ID/advanced-design-frontend:IMAGE_TAG
+        imagePullPolicy: Always
+        envFrom:
+        - configMapRef:
+            name: advanced-design-config
+        ports:
+        - containerPort: 80
+          name: http
+          protocol: TCP
+        # livenessProbe:
+        #   failureThreshold: 3
+        #   httpGet:
+        #     path: /
+        #     port: https
+        #     scheme: HTTPS
+        #   initialDelaySeconds: 10
+        #   periodSeconds: 10
+        #   successThreshold: 1
+        #   timeoutSeconds: 30
+        # readinessProbe:
+        #   failureThreshold: 3
+        #   httpGet:
+        #     path: /
+        #     port: https
+        #     scheme: HTTPS
+        #   initialDelaySeconds: 10
+        #   periodSeconds: 10
+        #   successThreshold: 1
+        #   timeoutSeconds: 30
+        resources: {}
+        securityContext: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        name: advanced-design-frontend
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: default
+      serviceAccountName: default
+      terminationGracePeriodSeconds: 30
